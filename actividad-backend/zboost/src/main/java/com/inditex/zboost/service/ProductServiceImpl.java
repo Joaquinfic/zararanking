@@ -39,8 +39,26 @@ public class ProductServiceImpl implements ProductService {
          */
 
         Map<String, Object> params = new HashMap<>();
-
+        
         String sql = "";
+        
+        if (!categories.isPresent()) {
+        	sql = "SELECT * FROM PRODUCTS";
+        } else {
+        	
+        	sql = "SELECT * FROM PRODUCTS WHERE ";
+        	int size = categories.map(List::size).orElseGet(() -> Integer.valueOf(0)).intValue();
+        	String last = categories.get().get(size -1);
+        	for (String category : categories.get()) {
+        		category = category.toLowerCase();
+        		category = category.substring(0,1).toUpperCase() + category.substring(1);      		
+        	}
+        	
+        	
+        	 	
+        }
+        
+        
 
         return jdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(Product.class));
     }
